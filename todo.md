@@ -17,3 +17,8 @@
 - [x] Add PWA manifest and service worker
 - [x] All tests passing (8/8)
 - [x] Save checkpoint and deliver
+
+## New Changes (Round 2)
+- [x] Study tab: replace top tab buttons with a dropdown menu (Hebrew OT / Greek NT / Lexicon Search)
+- [x] Bible tab: add Bible version dropdown (KJV / NKJV / NLT / NIV)
+- [x] Study search: add verse lookup by book + chapter + verse (e.g. "Matthew 24:5") with word-by-word translation

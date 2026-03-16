@@ -47,6 +47,15 @@ function getVerseTranslation(bookName: string, chapter: number, verseNum: number
   }));
 }
 
+type BibleVersion = "KJV" | "NKJV" | "NLT" | "NIV";
+
+const VERSION_INFO: Record<BibleVersion, { label: string; note: string }> = {
+  KJV:  { label: "King James Version",        note: "KJV (1611)" },
+  NKJV: { label: "New King James Version",     note: "NKJV (1982)" },
+  NLT:  { label: "New Living Translation",     note: "NLT (2015)" },
+  NIV:  { label: "New International Version",  note: "NIV (2011)" },
+};
+
 export default function BibleScreen() {
   const colors = useColors();
   const [bible, setBible] = useState<BibleData | null>(null);
@@ -56,6 +65,8 @@ export default function BibleScreen() {
   const [transWords, setTransWords] = useState<WordData[]>([]);
   const [showBookPicker, setShowBookPicker] = useState(false);
   const [showChapterPicker, setShowChapterPicker] = useState(false);
+  const [bibleVersion, setBibleVersion] = useState<BibleVersion>("KJV");
+  const [showVersionPicker, setShowVersionPicker] = useState(false);
 
   useEffect(() => {
     // Load lazily
@@ -87,6 +98,19 @@ export default function BibleScreen() {
 
   return (
     <ScreenContainer edges={["left", "right", "bottom"]}>
+      {/* Bible Version Dropdown */}
+      <View style={[s.versionBar, { backgroundColor: colors.surface, borderBottomColor: colors.border }]}>
+        <TouchableOpacity
+          style={[s.versionBtn, { backgroundColor: colors.background, borderColor: colors.primary }]}
+          onPress={() => setShowVersionPicker(true)}
+          activeOpacity={0.8}
+        >
+          <Text style={[s.versionBtnLabel, { color: colors.muted }]}>Bible Version</Text>
+          <Text style={[s.versionBtnText, { color: colors.foreground }]}>{VERSION_INFO[bibleVersion].label}</Text>
+          <Text style={[s.versionArrow, { color: colors.primary }]}>▼</Text>
+        </TouchableOpacity>
+      </View>
+
       {/* Navigation Controls */}
       <View style={[s.navBar, { backgroundColor: colors.surface, borderBottomColor: colors.border }]}>
         {/* Book Picker */}
@@ -187,6 +211,36 @@ export default function BibleScreen() {
         </Pressable>
       </Modal>
 
+      {/* Version Picker Modal */}
+      <Modal visible={showVersionPicker} transparent animationType="fade" onRequestClose={() => setShowVersionPicker(false)}>
+        <Pressable style={s.modalOverlay} onPress={() => setShowVersionPicker(false)}>
+          <Pressable style={[s.pickerSheet, { backgroundColor: colors.surface }]} onPress={() => {}}>
+            <View style={s.sheetHandle} />
+            <Text style={[s.sheetTitle, { color: colors.foreground }]}>Select Bible Version</Text>
+            {(Object.keys(VERSION_INFO) as BibleVersion[]).map((v) => (
+              <TouchableOpacity
+                key={v}
+                style={[s.pickerItem, { borderBottomColor: colors.border, backgroundColor: v === bibleVersion ? "rgba(124,58,237,0.1)" : "transparent", borderRadius: 10, marginBottom: 4 }]}
+                onPress={() => { setBibleVersion(v); setShowVersionPicker(false); }}
+              >
+                <View style={{ flexDirection: "row", alignItems: "center", justifyContent: "space-between" }}>
+                  <View>
+                    <Text style={[s.pickerItemText, { color: v === bibleVersion ? colors.primary : colors.foreground }]}>{VERSION_INFO[v].label}</Text>
+                    <Text style={{ fontSize: 11, color: colors.muted, marginTop: 2 }}>{VERSION_INFO[v].note}</Text>
+                  </View>
+                  {v === bibleVersion && <Text style={{ color: colors.primary, fontSize: 18 }}>✓</Text>}
+                </View>
+              </TouchableOpacity>
+            ))}
+            <View style={[s.pickerItem, { borderBottomColor: "transparent", backgroundColor: "rgba(245,158,11,0.08)", borderRadius: 10, marginTop: 8 }]}>
+              <Text style={{ fontSize: 12, color: colors.muted, lineHeight: 18 }}>
+                📌 Note: The app currently uses the KJV text for all versions. Full NKJV, NLT, and NIV text integration is coming in a future update. The Hebrew/Greek word study works with all versions.
+              </Text>
+            </View>
+          </Pressable>
+        </Pressable>
+      </Modal>
+
       {/* Translation Drawer */}
       <Modal visible={selectedVerse !== null} transparent animationType="slide" onRequestClose={() => setSelectedVerse(null)}>
         <Pressable style={s.modalOverlay} onPress={() => setSelectedVerse(null)}>
@@ -227,6 +281,22 @@ export default function BibleScreen() {
 
 const styles = (c: ReturnType<typeof useColors>) =>
   StyleSheet.create({
+    versionBar: {
+      padding: 10,
+      borderBottomWidth: 1,
+    },
+    versionBtn: {
+      flexDirection: "row",
+      alignItems: "center",
+      paddingHorizontal: 14,
+      paddingVertical: 10,
+      borderRadius: 12,
+      borderWidth: 1.5,
+      gap: 8,
+    },
+    versionBtnLabel: { fontSize: 10, fontWeight: "700", textTransform: "uppercase", letterSpacing: 0.5 },
+    versionBtnText: { flex: 1, fontSize: 14, fontWeight: "700" },
+    versionArrow: { fontSize: 11, fontWeight: "700" },
     navBar: {
       flexDirection: "row",
       padding: 10,
