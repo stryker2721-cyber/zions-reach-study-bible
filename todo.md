@@ -22,3 +22,9 @@
 - [x] Study tab: replace top tab buttons with a dropdown menu (Hebrew OT / Greek NT / Lexicon Search)
 - [x] Bible tab: add Bible version dropdown (KJV / NKJV / NLT / NIV)
 - [x] Study search: add verse lookup by book + chapter + verse (e.g. "Matthew 24:5") with word-by-word translation
+
+## Round 3 Features
+- [x] Bible tab: verse search — keyword search across all 66 books with results list
+- [x] Bible tab: verse highlight system — tap-hold or button to highlight a verse in a color
+- [x] Bible tab: favorites — star a verse and view all starred verses in a Highlights/Favorites section
+- [x] Highlights persisted locally with AsyncStorage
