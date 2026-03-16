@@ -1,0 +1,332 @@
+[
+  {
+    "name": "Genesis",
+    "slug": "Genesis",
+    "chapters": 50
+  },
+  {
+    "name": "Exodus",
+    "slug": "Exodus",
+    "chapters": 40
+  },
+  {
+    "name": "Leviticus",
+    "slug": "Leviticus",
+    "chapters": 27
+  },
+  {
+    "name": "Numbers",
+    "slug": "Numbers",
+    "chapters": 36
+  },
+  {
+    "name": "Deuteronomy",
+    "slug": "Deuteronomy",
+    "chapters": 34
+  },
+  {
+    "name": "Joshua",
+    "slug": "Joshua",
+    "chapters": 24
+  },
+  {
+    "name": "Judges",
+    "slug": "Judges",
+    "chapters": 21
+  },
+  {
+    "name": "Ruth",
+    "slug": "Ruth",
+    "chapters": 4
+  },
+  {
+    "name": "1 Samuel",
+    "slug": "1Samuel",
+    "chapters": 31
+  },
+  {
+    "name": "2 Samuel",
+    "slug": "2Samuel",
+    "chapters": 24
+  },
+  {
+    "name": "1 Kings",
+    "slug": "1Kings",
+    "chapters": 22
+  },
+  {
+    "name": "2 Kings",
+    "slug": "2Kings",
+    "chapters": 25
+  },
+  {
+    "name": "1 Chronicles",
+    "slug": "1Chronicles",
+    "chapters": 29
+  },
+  {
+    "name": "2 Chronicles",
+    "slug": "2Chronicles",
+    "chapters": 36
+  },
+  {
+    "name": "Ezra",
+    "slug": "Ezra",
+    "chapters": 10
+  },
+  {
+    "name": "Nehemiah",
+    "slug": "Nehemiah",
+    "chapters": 13
+  },
+  {
+    "name": "Esther",
+    "slug": "Esther",
+    "chapters": 10
+  },
+  {
+    "name": "Job",
+    "slug": "Job",
+    "chapters": 42
+  },
+  {
+    "name": "Psalms",
+    "slug": "Psalms",
+    "chapters": 150
+  },
+  {
+    "name": "Proverbs",
+    "slug": "Proverbs",
+    "chapters": 31
+  },
+  {
+    "name": "Ecclesiastes",
+    "slug": "Ecclesiastes",
+    "chapters": 12
+  },
+  {
+    "name": "Song of Solomon",
+    "slug": "SongofSolomon",
+    "chapters": 8
+  },
+  {
+    "name": "Isaiah",
+    "slug": "Isaiah",
+    "chapters": 66
+  },
+  {
+    "name": "Jeremiah",
+    "slug": "Jeremiah",
+    "chapters": 52
+  },
+  {
+    "name": "Lamentations",
+    "slug": "Lamentations",
+    "chapters": 5
+  },
+  {
+    "name": "Ezekiel",
+    "slug": "Ezekiel",
+    "chapters": 48
+  },
+  {
+    "name": "Daniel",
+    "slug": "Daniel",
+    "chapters": 12
+  },
+  {
+    "name": "Hosea",
+    "slug": "Hosea",
+    "chapters": 14
+  },
+  {
+    "name": "Joel",
+    "slug": "Joel",
+    "chapters": 3
+  },
+  {
+    "name": "Amos",
+    "slug": "Amos",
+    "chapters": 9
+  },
+  {
+    "name": "Obadiah",
+    "slug": "Obadiah",
+    "chapters": 1
+  },
+  {
+    "name": "Jonah",
+    "slug": "Jonah",
+    "chapters": 4
+  },
+  {
+    "name": "Micah",
+    "slug": "Micah",
+    "chapters": 7
+  },
+  {
+    "name": "Nahum",
+    "slug": "Nahum",
+    "chapters": 3
+  },
+  {
+    "name": "Habakkuk",
+    "slug": "Habakkuk",
+    "chapters": 3
+  },
+  {
+    "name": "Zephaniah",
+    "slug": "Zephaniah",
+    "chapters": 3
+  },
+  {
+    "name": "Haggai",
+    "slug": "Haggai",
+    "chapters": 2
+  },
+  {
+    "name": "Zechariah",
+    "slug": "Zechariah",
+    "chapters": 14
+  },
+  {
+    "name": "Malachi",
+    "slug": "Malachi",
+    "chapters": 4
+  },
+  {
+    "name": "Matthew",
+    "slug": "Matthew",
+    "chapters": 28
+  },
+  {
+    "name": "Mark",
+    "slug": "Mark",
+    "chapters": 16
+  },
+  {
+    "name": "Luke",
+    "slug": "Luke",
+    "chapters": 24
+  },
+  {
+    "name": "John",
+    "slug": "John",
+    "chapters": 21
+  },
+  {
+    "name": "Acts",
+    "slug": "Acts",
+    "chapters": 28
+  },
+  {
+    "name": "Romans",
+    "slug": "Romans",
+    "chapters": 16
+  },
+  {
+    "name": "1 Corinthians",
+    "slug": "1Corinthians",
+    "chapters": 16
+  },
+  {
+    "name": "2 Corinthians",
+    "slug": "2Corinthians",
+    "chapters": 13
+  },
+  {
+    "name": "Galatians",
+    "slug": "Galatians",
+    "chapters": 6
+  },
+  {
+    "name": "Ephesians",
+    "slug": "Ephesians",
+    "chapters": 6
+  },
+  {
+    "name": "Philippians",
+    "slug": "Philippians",
+    "chapters": 4
+  },
+  {
+    "name": "Colossians",
+    "slug": "Colossians",
+    "chapters": 4
+  },
+  {
+    "name": "1 Thessalonians",
+    "slug": "1Thessalonians",
+    "chapters": 5
+  },
+  {
+    "name": "2 Thessalonians",
+    "slug": "2Thessalonians",
+    "chapters": 3
+  },
+  {
+    "name": "1 Timothy",
+    "slug": "1Timothy",
+    "chapters": 6
+  },
+  {
+    "name": "2 Timothy",
+    "slug": "2Timothy",
+    "chapters": 4
+  },
+  {
+    "name": "Titus",
+    "slug": "Titus",
+    "chapters": 3
+  },
+  {
+    "name": "Philemon",
+    "slug": "Philemon",
+    "chapters": 1
+  },
+  {
+    "name": "Hebrews",
+    "slug": "Hebrews",
+    "chapters": 13
+  },
+  {
+    "name": "James",
+    "slug": "James",
+    "chapters": 5
+  },
+  {
+    "name": "1 Peter",
+    "slug": "1Peter",
+    "chapters": 5
+  },
+  {
+    "name": "2 Peter",
+    "slug": "2Peter",
+    "chapters": 3
+  },
+  {
+    "name": "1 John",
+    "slug": "1John",
+    "chapters": 5
+  },
+  {
+    "name": "2 John",
+    "slug": "2John",
+    "chapters": 1
+  },
+  {
+    "name": "3 John",
+    "slug": "3John",
+    "chapters": 1
+  },
+  {
+    "name": "Jude",
+    "slug": "Jude",
+    "chapters": 1
+  },
+  {
+    "name": "Revelation",
+    "slug": "Revelation",
+    "chapters": 22
+  }
+]

@@ -36,6 +36,8 @@ type RuntimePalette = SchemePaletteItem & {
   tabIconDefault: string;
   tabIconSelected: string;
   border: string;
+  hebrew: string;
+  greek: string;
 };
 
 function buildRuntimePalette(scheme: ColorScheme): RuntimePalette {
@@ -49,6 +51,8 @@ function buildRuntimePalette(scheme: ColorScheme): RuntimePalette {
     tabIconDefault: base.muted,
     tabIconSelected: base.primary,
     border: base.border,
+    hebrew: (base as any).hebrew ?? (scheme === "dark" ? "#f59e0b" : "#b45309"),
+    greek: (base as any).greek ?? (scheme === "dark" ? "#38bdf8" : "#0369a1"),
   };
 }
 

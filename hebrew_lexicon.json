@@ -1,0 +1,74 @@
+{
+  "In": {
+    "hebrew": "בְּ",
+    "strongs": "N/A",
+    "meaning": "in, at, within",
+    "notes": "Preposition"
+  },
+  "in": {
+    "hebrew": "בְּ",
+    "strongs": "N/A",
+    "meaning": "in, at, within",
+    "notes": "Preposition"
+  },
+  "the": {
+    "hebrew": "",
+    "strongs": "N/A",
+    "meaning": "Definite article",
+    "notes": "Attached as prefix (הַ) to the following noun"
+  },
+  "beginning": {
+    "hebrew": "רֵאשִׁית",
+    "strongs": "H7225",
+    "meaning": "first, start",
+    "notes": "Root: ראש (head/chief)"
+  },
+  "created": {
+    "hebrew": "בָּרָא",
+    "strongs": "H1254",
+    "meaning": "to create, shape, form",
+    "notes": "Divine creation — only God can 'bara'. Qal perfect, 3rd person masculine singular."
+  },
+  "God": {
+    "hebrew": "אֱלֹהִים",
+    "strongs": "H430",
+    "meaning": "God, plural majesty",
+    "notes": "Plural form used as singular — indicates divine majesty and fullness of power"
+  },
+  "god": {
+    "hebrew": "אֱלֹהִים",
+    "strongs": "H430",
+    "meaning": "God, plural majesty",
+    "notes": "Plural form used as singular — indicates divine majesty and fullness of power"
+  },
+  "heavens": {
+    "hebrew": "שָּׁמַיִם",
+    "strongs": "H8064",
+    "meaning": "sky, cosmos",
+    "notes": "Heavenly realm; always plural in Hebrew"
+  },
+  "the heavens": {
+    "hebrew": "הַשָּׁמַיִם",
+    "strongs": "H8064",
+    "meaning": "sky, cosmos",
+    "notes": "Heavenly realm; always plural in Hebrew"
+  },
+  "and": {
+    "hebrew": "וְ",
+    "strongs": "H5771",
+    "meaning": "and, also",
+    "notes": "Waw conjunctive — connects words and clauses"
+  },
+  "earth": {
+    "hebrew": "אָרֶץ",
+    "strongs": "H776",
+    "meaning": "earth, land, ground",
+    "notes": "Physical earth or land; context determines scope"
+  },
+  "the earth": {
+    "hebrew": "הָאָרֶץ",
+    "strongs": "H776",
+    "meaning": "earth, land, ground",
+    "notes": "Physical earth; definite article הָ attached"
+  }
+}
