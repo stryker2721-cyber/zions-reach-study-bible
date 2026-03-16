@@ -11,8 +11,9 @@ function BottomTabBar({ state, navigation }: any) {
   const insets = useSafeAreaInsets();
 
   const tabs = [
-    { name: "index", label: "Study",    icon: "🔤" },
-    { name: "bible", label: "Bible",    icon: "📖" },
+    { name: "index",    label: "Study",   icon: "🔤" },
+    { name: "bible",    label: "Bible",   icon: "📖" },
+    { name: "browse",   label: "Browse",  icon: "🗂️" },
     { name: "settings", label: "Settings", icon: "⚙️" },
   ];
 
@@ -155,6 +156,7 @@ export default function TabLayout() {
     >
       <Tabs.Screen name="index"    options={{ title: "Study" }} />
       <Tabs.Screen name="bible"    options={{ title: "Bible" }} />
+      <Tabs.Screen name="browse"   options={{ title: "Browse" }} />
       <Tabs.Screen name="settings" options={{ title: "Settings" }} />
     </Tabs>
   );

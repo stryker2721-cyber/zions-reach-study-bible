@@ -28,3 +28,16 @@
 - [x] Bible tab: verse highlight system — tap-hold or button to highlight a verse in a color
 - [x] Bible tab: favorites — star a verse and view all starred verses in a Highlights/Favorites section
 - [x] Highlights persisted locally with AsyncStorage
+
+## Round 4 Fixes
+- [ ] Fix verse highlighter — long-press on verse not saving/showing highlight color
+- [ ] Expand Hebrew word study to cover entire Old Testament (all 23,145 verses)
+- [ ] Expand Greek word study to cover entire New Testament (all 7,957 verses)
+- [ ] Verse lookup in Study tab works for any verse in the Bible, not just Genesis 1:1 / John 1:1
+
+## Round 4 & 5 Features
+- [x] Fix verse highlighter — add visible highlight button per verse row (works on web + native)
+- [x] Full Bible word-study engine — Hebrew for OT, Greek for NT, any verse
+- [x] Browse by Category tab — People, Places, Names of God, Phrases, Creation, Theology
+- [x] Browse categories show Hebrew/Greek script, word count badge, and detail word list
+- [x] Browse tab added to bottom tab navigator
