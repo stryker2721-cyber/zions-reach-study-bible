@@ -167,7 +167,7 @@ export default function StudyScreen() {
   const s = styles(colors);
 
   return (
-    <ScreenContainer edges={["left", "right", "bottom"]}>
+    <ScreenContainer edges={["left", "right", "bottom"]} containerClassName="flex-1">
 
       {/* ── Dropdown Selector ─────────────────────────────────────────────── */}
       <View style={[s.dropdownContainer, { backgroundColor: colors.surface, borderBottomColor: colors.border }]}>
@@ -460,21 +460,21 @@ export default function StudyScreen() {
 const styles = (c: ReturnType<typeof useColors>) =>
   StyleSheet.create({
     dropdownContainer: {
-      padding: 10,
+      padding: 12,
       borderBottomWidth: 1,
     },
     dropdownBtn: {
       flexDirection: "row",
       alignItems: "center",
-      paddingHorizontal: 14,
-      paddingVertical: 12,
-      borderRadius: 12,
-      borderWidth: 1.5,
-      gap: 8,
+      paddingHorizontal: 18,
+      paddingVertical: 16,
+      borderRadius: 14,
+      borderWidth: 2,
+      gap: 10,
     },
-    dropdownBtnIcon: { fontSize: 16 },
-    dropdownBtnText: { flex: 1, fontSize: 15, fontWeight: "700" },
-    dropdownArrow: { fontSize: 12, fontWeight: "700" },
+    dropdownBtnIcon: { fontSize: 20 },
+    dropdownBtnText: { flex: 1, fontSize: 17, fontWeight: "800" },
+    dropdownArrow: { fontSize: 14, fontWeight: "800" },
     dropdownSheet: {
       borderTopLeftRadius: 24,
       borderTopRightRadius: 24,

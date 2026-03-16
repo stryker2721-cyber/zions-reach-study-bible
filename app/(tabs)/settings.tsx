@@ -105,7 +105,7 @@ export default function SettingsScreen() {
   const s = styles(colors);
 
   return (
-    <ScreenContainer edges={["left", "right", "bottom"]}>
+    <ScreenContainer edges={["left", "right", "bottom"]} containerClassName="flex-1">
       <ScrollView contentContainerStyle={{ padding: 20, paddingBottom: 40 }}>
 
         {/* Account Card */}

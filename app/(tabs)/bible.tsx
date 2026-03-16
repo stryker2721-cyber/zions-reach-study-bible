@@ -87,7 +87,7 @@ export default function BibleScreen() {
 
   if (!bible) {
     return (
-      <ScreenContainer edges={["left", "right", "bottom"]}>
+      <ScreenContainer edges={["left", "right", "bottom"]} containerClassName="flex-1">
         <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
           <ActivityIndicator size="large" color={colors.primary} />
           <Text style={{ color: colors.muted, marginTop: 12 }}>Loading Bible…</Text>
@@ -97,7 +97,7 @@ export default function BibleScreen() {
   }
 
   return (
-    <ScreenContainer edges={["left", "right", "bottom"]}>
+    <ScreenContainer edges={["left", "right", "bottom"]} containerClassName="flex-1">
       {/* Bible Version Dropdown */}
       <View style={[s.versionBar, { backgroundColor: colors.surface, borderBottomColor: colors.border }]}>
         <TouchableOpacity
@@ -288,15 +288,15 @@ const styles = (c: ReturnType<typeof useColors>) =>
     versionBtn: {
       flexDirection: "row",
       alignItems: "center",
-      paddingHorizontal: 14,
-      paddingVertical: 10,
-      borderRadius: 12,
-      borderWidth: 1.5,
-      gap: 8,
+      paddingHorizontal: 18,
+      paddingVertical: 16,
+      borderRadius: 14,
+      borderWidth: 2,
+      gap: 10,
     },
-    versionBtnLabel: { fontSize: 10, fontWeight: "700", textTransform: "uppercase", letterSpacing: 0.5 },
-    versionBtnText: { flex: 1, fontSize: 14, fontWeight: "700" },
-    versionArrow: { fontSize: 11, fontWeight: "700" },
+    versionBtnLabel: { fontSize: 11, fontWeight: "700", textTransform: "uppercase", letterSpacing: 0.5 },
+    versionBtnText: { flex: 1, fontSize: 17, fontWeight: "800" },
+    versionArrow: { fontSize: 14, fontWeight: "800" },
     navBar: {
       flexDirection: "row",
       padding: 10,

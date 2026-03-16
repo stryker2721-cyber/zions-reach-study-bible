@@ -1,20 +1,66 @@
 import { Tabs } from "expo-router";
-import { View, Text, TouchableOpacity, StyleSheet, Platform } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
+import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
+import { SafeAreaView, useSafeAreaInsets } from "react-native-safe-area-context";
 import { useColors } from "@/hooks/use-colors";
 import { useAuth } from "@/lib/auth-context";
 import { useRouter } from "expo-router";
 
-function TopTabBar({ state, descriptors, navigation }: any) {
+// ── Custom Bottom Tab Bar ─────────────────────────────────────────────────────
+function BottomTabBar({ state, navigation }: any) {
+  const colors = useColors();
+  const insets = useSafeAreaInsets();
+
+  const tabs = [
+    { name: "index", label: "Study",    icon: "🔤" },
+    { name: "bible", label: "Bible",    icon: "📖" },
+    { name: "settings", label: "Settings", icon: "⚙️" },
+  ];
+
+  return (
+    <View
+      style={[
+        styles.bottomBar,
+        {
+          backgroundColor: "#1a0533",
+          paddingBottom: Math.max(insets.bottom, 12),
+          borderTopColor: "rgba(255,255,255,0.15)",
+        },
+      ]}
+    >
+      {tabs.map((tab, index) => {
+        const isFocused = state.index === index;
+        return (
+          <TouchableOpacity
+            key={tab.name}
+            style={[
+              styles.bottomTabBtn,
+              isFocused && styles.bottomTabBtnActive,
+            ]}
+            onPress={() => navigation.navigate(tab.name)}
+            activeOpacity={0.75}
+          >
+            <Text style={styles.bottomTabIcon}>{tab.icon}</Text>
+            <Text
+              style={[
+                styles.bottomTabLabel,
+                { color: isFocused ? "#fff" : "rgba(255,255,255,0.5)" },
+              ]}
+            >
+              {tab.label}
+            </Text>
+          </TouchableOpacity>
+        );
+      })}
+    </View>
+  );
+}
+
+// ── Custom Top Header ─────────────────────────────────────────────────────────
+function TopHeader() {
   const colors = useColors();
   const { user, logout } = useAuth();
   const router = useRouter();
-
-  const tabs = [
-    { name: "index", label: "Study", icon: "🔤" },
-    { name: "bible", label: "Bible", icon: "📖" },
-    { name: "settings", label: "Settings", icon: "⚙️" },
-  ];
+  const insets = useSafeAreaInsets();
 
   const handleLogout = async () => {
     await logout();
@@ -22,48 +68,19 @@ function TopTabBar({ state, descriptors, navigation }: any) {
   };
 
   return (
-    <SafeAreaView edges={["top"]} style={{ backgroundColor: colors.background }}>
-      {/* App Header */}
-      <View style={[styles.header, { backgroundColor: colors.background, borderBottomColor: colors.border }]}>
-        <Text style={[styles.appTitle, { color: colors.foreground }]}>📖 Original Word Bible</Text>
-        <TouchableOpacity onPress={handleLogout} style={[styles.signOutBtn, { borderColor: colors.border }]}>
-          <Text style={[styles.signOutText, { color: colors.muted }]}>Sign Out</Text>
-        </TouchableOpacity>
-      </View>
-
-      {/* Username badge */}
-      {user && (
-        <View style={[styles.userBar, { backgroundColor: colors.surface }]}>
-          <Text style={[styles.userText, { color: colors.muted }]}>
-            {user.isAdmin ? "👑 " : ""}Signed in as <Text style={{ color: colors.primary, fontWeight: "700" }}>{user.username}</Text>
-          </Text>
+    <SafeAreaView edges={["top"]} style={{ backgroundColor: "#1a0533" }}>
+      <View style={[styles.header, { paddingTop: 4 }]}>
+        <View style={{ flex: 1 }}>
+          <Text style={styles.appTitle}>📖 Original Word Bible</Text>
+          {user && (
+            <Text style={styles.userBadge}>
+              {user.isAdmin ? "👑 " : ""}Signed in as {user.username}
+            </Text>
+          )}
         </View>
-      )}
-
-      {/* Tab Buttons */}
-      <View style={[styles.tabBar, { backgroundColor: colors.surface, borderBottomColor: colors.border }]}>
-        {tabs.map((tab, index) => {
-          const isFocused = state.index === index;
-          return (
-            <TouchableOpacity
-              key={tab.name}
-              style={[
-                styles.tabBtn,
-                {
-                  backgroundColor: isFocused ? colors.primary : colors.background,
-                  borderColor: isFocused ? colors.primary : colors.border,
-                },
-              ]}
-              onPress={() => navigation.navigate(tab.name)}
-              activeOpacity={0.8}
-            >
-              <Text style={styles.tabIcon}>{tab.icon}</Text>
-              <Text style={[styles.tabLabel, { color: isFocused ? "#fff" : colors.muted }]}>
-                {tab.label}
-              </Text>
-            </TouchableOpacity>
-          );
-        })}
+        <TouchableOpacity onPress={handleLogout} style={styles.signOutBtn}>
+          <Text style={styles.signOutText}>Sign Out</Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );
@@ -73,60 +90,71 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: "row",
     alignItems: "center",
-    justifyContent: "space-between",
     paddingHorizontal: 16,
-    paddingVertical: 10,
-    borderBottomWidth: 0.5,
+    paddingBottom: 12,
+    backgroundColor: "#1a0533",
   },
-  appTitle: { fontSize: 17, fontWeight: "800" },
+  appTitle: {
+    fontSize: 17,
+    fontWeight: "800",
+    color: "#fff",
+  },
+  userBadge: {
+    fontSize: 11,
+    color: "rgba(255,255,255,0.6)",
+    marginTop: 2,
+  },
   signOutBtn: {
-    paddingHorizontal: 12,
-    paddingVertical: 6,
-    borderRadius: 8,
-    borderWidth: 1,
-  },
-  signOutText: { fontSize: 12, fontWeight: "600" },
-  userBar: {
-    paddingHorizontal: 16,
-    paddingVertical: 6,
-  },
-  userText: { fontSize: 12 },
-  tabBar: {
-    flexDirection: "row",
-    paddingHorizontal: 12,
+    paddingHorizontal: 14,
     paddingVertical: 8,
-    gap: 8,
-    borderBottomWidth: 1,
+    borderRadius: 10,
+    backgroundColor: "rgba(255,255,255,0.12)",
+    borderWidth: 1,
+    borderColor: "rgba(255,255,255,0.2)",
   },
-  tabBtn: {
-    flex: 1,
+  signOutText: {
+    fontSize: 12,
+    fontWeight: "700",
+    color: "rgba(255,255,255,0.85)",
+  },
+  bottomBar: {
     flexDirection: "row",
+    paddingTop: 10,
+    borderTopWidth: 1,
+  },
+  bottomTabBtn: {
+    flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    gap: 6,
-    paddingVertical: 10,
-    paddingHorizontal: 8,
+    paddingVertical: 6,
+    gap: 4,
     borderRadius: 12,
-    borderWidth: 1.5,
-    minHeight: 44,
+    marginHorizontal: 4,
   },
-  tabIcon: { fontSize: 16 },
-  tabLabel: { fontSize: 13, fontWeight: "700" },
+  bottomTabBtnActive: {
+    backgroundColor: "rgba(255,255,255,0.15)",
+  },
+  bottomTabIcon: {
+    fontSize: 24,
+  },
+  bottomTabLabel: {
+    fontSize: 11,
+    fontWeight: "700",
+    letterSpacing: 0.2,
+  },
 });
 
 export default function TabLayout() {
-  const colors = useColors();
-
   return (
     <Tabs
-      tabBar={(props) => <TopTabBar {...props} />}
+      tabBar={(props) => <BottomTabBar {...props} />}
       screenOptions={{
-        headerShown: false,
-        tabBarStyle: { display: "none" },
+        header: () => <TopHeader />,
+        headerShown: true,
       }}
     >
-      <Tabs.Screen name="index" options={{ title: "Study" }} />
-      <Tabs.Screen name="bible" options={{ title: "Bible" }} />
+      <Tabs.Screen name="index"    options={{ title: "Study" }} />
+      <Tabs.Screen name="bible"    options={{ title: "Bible" }} />
       <Tabs.Screen name="settings" options={{ title: "Settings" }} />
     </Tabs>
   );
