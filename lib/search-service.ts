@@ -5,10 +5,11 @@
 
 interface SearchResult {
   strongs: string;
-  lemma: string;
-  xlit: string;
-  strongs_def: string;
-  kjv_def: string;
+  hebrew?: string;
+  greek?: string;
+  transliteration: string;
+  meaning: string;
+  kjv: string;
   lang: "H" | "G";
 }
 
@@ -33,7 +34,7 @@ export async function searchLexicon(query: string, limit = 50): Promise<SearchRe
   if (!query.trim()) return [];
 
   const q = query.trim().toLowerCase();
-  const isStrongs = /^[hg]\d+/i.test(q);
+  const isStrongs = /^[hg]?\d+/i.test(q);
   const results: SearchResult[] = [];
 
   try {
@@ -45,32 +46,38 @@ export async function searchLexicon(query: string, limit = 50): Promise<SearchRe
       for (const [key, entry] of Object.entries(lex)) {
         if (results.length >= limit) break;
 
-        const def = (entry.strongs_def || "").toLowerCase();
-        const kjv = (entry.kjv_def || "").toLowerCase();
-        const xlit = (entry.xlit || "").toLowerCase();
-        const lemma = (entry.lemma || "").toLowerCase();
+        const meaning = (entry.meaning || "").toLowerCase();
+        const kjvText = (entry.kjv || "").toLowerCase();
+        const transliteration = (entry.transliteration || "").toLowerCase();
+        const hebrewText = (entry.hebrew || "").toLowerCase();
+        const greekText = (entry.greek || "").toLowerCase();
 
-        // Match by Strong's number
-        if (isStrongs && key.toLowerCase() === q) {
+        // Match by Strong's number (e.g., 'H430', 'G3056', or just '430')
+        const normalizedKey = key.toLowerCase();
+        const normalizedQ = q.startsWith("h") || q.startsWith("g") ? q : langCode.toLowerCase() + q;
+
+        if (isStrongs && (normalizedKey === normalizedQ || normalizedKey === q)) {
           results.push({
             strongs: key,
-            lemma: entry.lemma || "",
-            xlit: entry.xlit || "",
-            strongs_def: entry.strongs_def || "",
-            kjv_def: entry.kjv_def || "",
+            hebrew: langCode === "H" ? entry.hebrew : undefined,
+            greek: langCode === "G" ? entry.greek : undefined,
+            transliteration: entry.transliteration || "",
+            meaning: entry.meaning || "",
+            kjv: entry.kjv || "",
             lang: langCode,
           });
           return; // Exact match found
         }
 
         // Match by keyword in any field
-        if (!isStrongs && (def.includes(q) || kjv.includes(q) || xlit.includes(q) || lemma.includes(q))) {
+        if (!isStrongs && (meaning.includes(q) || kjvText.includes(q) || transliteration.includes(q) || hebrewText.includes(q) || greekText.includes(q))) {
           results.push({
             strongs: key,
-            lemma: entry.lemma || "",
-            xlit: entry.xlit || "",
-            strongs_def: entry.strongs_def || "",
-            kjv_def: entry.kjv_def || "",
+            hebrew: langCode === "H" ? entry.hebrew : undefined,
+            greek: langCode === "G" ? entry.greek : undefined,
+            transliteration: entry.transliteration || "",
+            meaning: entry.meaning || "",
+            kjv: entry.kjv || "",
             lang: langCode,
           });
         }

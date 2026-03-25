@@ -247,6 +247,10 @@ export default function MentorScreen() {
               multiline
               maxLength={500}
               editable={!isLoading}
+              onSubmitEditing={sendMessage}
+              blurOnSubmit={false}
+              returnKeyType="send"
+              enablesReturnKeyAutomatically
               className={cn(
                 "flex-1 bg-background rounded-lg px-4 py-3 text-foreground",
                 "border border-border"

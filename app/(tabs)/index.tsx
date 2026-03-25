@@ -12,10 +12,11 @@ type Mode = "hebrew" | "greek" | "search" | "verse";
 
 interface SearchResult {
   strongs: string;
-  lemma: string;
-  xlit: string;
-  strongs_def: string;
-  kjv_def: string;
+  hebrew?: string;
+  greek?: string;
+  transliteration: string;
+  meaning: string;
+  kjv: string;
   lang: "H" | "G";
 }
 
@@ -224,13 +225,13 @@ export default function StudyScreen() {
             {searchResults.map((r, i) => (
               <TouchableOpacity key={i} style={s.resultCard} onPress={() => setSelectedResult(r)} activeOpacity={0.8}>
                 <View style={{ flexDirection: "row", alignItems: "center", gap: 8, marginBottom: 4 }}>
-                  <Text style={[s.resultScript, { color: r.lang === "H" ? colors.hebrew : colors.greek }]}>{r.lemma}</Text>
+                  <Text style={[s.resultScript, { color: r.lang === "H" ? colors.hebrew : colors.greek }]}>{r.hebrew || r.greek || r.transliteration}</Text>
                   <View style={[s.strongsBadge, { backgroundColor: r.lang === "H" ? "rgba(245,158,11,0.15)" : "rgba(56,189,248,0.15)" }]}>
                     <Text style={[s.strongsText, { color: r.lang === "H" ? colors.hebrew : colors.greek }]}>{r.strongs}</Text>
                   </View>
                 </View>
-                <Text style={s.resultXlit}>/{r.xlit}/</Text>
-                <Text style={s.resultDef} numberOfLines={2}>{r.strongs_def}</Text>
+                <Text style={s.resultXlit}>/{r.transliteration}/</Text>
+                <Text style={s.resultDef} numberOfLines={2}>{r.meaning}</Text>
               </TouchableOpacity>
             ))}
             {searchResults.length === 0 && !searchLoading && searchQuery.length > 0 && (
@@ -406,20 +407,20 @@ export default function StudyScreen() {
               <>
                 <View style={s.sheetHandle} />
                 <Text style={[s.detailScript, { color: selectedResult.lang === "H" ? colors.hebrew : colors.greek }]}>
-                  {selectedResult.lemma}
+                  {selectedResult.hebrew || selectedResult.greek || selectedResult.transliteration}
                 </Text>
-                <Text style={s.detailXlit}>/{selectedResult.xlit}/</Text>
+                <Text style={s.detailXlit}>/{selectedResult.transliteration}/</Text>
                 <View style={[s.strongsBadge, { alignSelf: "center", marginBottom: 12, backgroundColor: selectedResult.lang === "H" ? "rgba(245,158,11,0.15)" : "rgba(56,189,248,0.15)" }]}>
                   <Text style={[s.strongsText, { color: selectedResult.lang === "H" ? colors.hebrew : colors.greek }]}>{selectedResult.strongs}</Text>
                 </View>
                 <ScrollView style={{ maxHeight: 260 }}>
                   <View style={[s.detailRow, { borderColor: colors.border }]}>
                     <Text style={[s.detailLabel, { color: colors.muted }]}>Definition</Text>
-                    <Text style={[s.detailValue, { color: colors.foreground }]}>{selectedResult.strongs_def}</Text>
+                    <Text style={[s.detailValue, { color: colors.foreground }]}>{selectedResult.meaning}</Text>
                   </View>
                   <View style={[s.detailRow, { borderColor: colors.border }]}>
                     <Text style={[s.detailLabel, { color: colors.muted }]}>KJV Renderings</Text>
-                    <Text style={[s.detailValue, { color: colors.foreground }]}>{selectedResult.kjv_def}</Text>
+                    <Text style={[s.detailValue, { color: colors.foreground }]}>{selectedResult.kjv}</Text>
                   </View>
                 </ScrollView>
                 <TouchableOpacity style={[s.closeBtn, { backgroundColor: colors.primary }]} onPress={() => setSelectedResult(null)}>

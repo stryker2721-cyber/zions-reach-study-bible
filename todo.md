@@ -67,3 +67,26 @@
 - [x] Add suggested prompts for Bible study
 - [x] Add context from lexicons and current verse
 - [ ] Test end-to-end mentor conversations and save checkpoint
+
+
+## Bug Fixes (PRIORITY)
+- [x] Fix Hebrew/Greek lexicon: load full lexicon data, not just one verse
+- [x] Fix lexicon search: search queries returning no results (aligned JSON keys)
+- [x] Fix Mentor AI: Enter key not sending messages (added onSubmitEditing)
+- [x] Test all three fixes end-to-end
+
+## Monetization & Feature Gating (Phase 5-8)
+- [ ] Update database schema: user_subscriptions, ai_usage_tracking tables
+- [ ] Stripe API key setup and product/price creation (monthly, yearly, lifetime)
+- [ ] Backend: Stripe webhook handlers (subscription created/updated/deleted, payment success)
+- [ ] Backend: Checkout session creation endpoint with trial_period_days: 3
+- [ ] Backend: Track daily AI Mentor usage per user (reset daily)
+- [ ] Backend: Check user plan and enforce feature access (highlights, AI limit)
+- [ ] Frontend: Pricing page with comparison table (Free vs Paid)
+- [ ] Frontend: "Start 3-Day Free Trial" buttons (monthly/yearly)
+- [ ] Frontend: "Buy Lifetime for $99.99" button
+- [ ] Frontend: Disable highlight UI entirely on free tier
+- [ ] Frontend: Show upgrade modal when free user exceeds 3 AI chats/day
+- [ ] Frontend: Premium verse explanation feature (click verse for AI explanation)
+- [ ] Frontend: Upgrade prompts and friendly UX messaging
+- [ ] Test end-to-end: free tier limits, trial signup, payment, webhook events
