@@ -41,3 +41,29 @@
 - [x] Browse by Category tab — People, Places, Names of God, Phrases, Creation, Theology
 - [x] Browse categories show Hebrew/Greek script, word count badge, and detail word list
 - [x] Browse tab added to bottom tab navigator
+
+## Round 6: PWA, Search Fixes, and Stripe Membership
+- [ ] Finish PWA: add install banner to root layout
+- [ ] Fix Lexicon search functionality
+- [ ] Fix Study tab search functionality
+- [ ] Set up Stripe account and get API keys
+- [ ] Build membership database schema (users, subscriptions, trials)
+- [ ] Integrate Stripe payment processing
+- [ ] Build membership pricing page with three tiers
+- [ ] Build subscription checkout flow
+- [ ] Implement 3-day free trial with auto-renewal
+- [ ] Build membership account/subscription management UI
+- [ ] Set up custom domain hosting
+- [ ] Deploy to custom domain
+
+## Manus AI Mentor Feature
+- [x] Set up Grok API key (xai-BUGGHqI4U5HpwJITEbo5W6praWQie5bh7uVYrTnqVM38d88RqxnQC6vokFRm3fsex13cOLyzboVAiZpy)
+- [x] Validate Grok API key format and connectivity
+- [x] Update database schema for mentor conversations and chat history
+- [x] Build backend API endpoint `/api/mentor/chat` with context retrieval
+- [x] Integrate Grok API (grok-4-latest) with streaming
+- [x] Build frontend: Mentor tab with chat interface
+- [x] Build chat UI with real-time message streaming
+- [x] Add suggested prompts for Bible study
+- [x] Add context from lexicons and current verse
+- [ ] Test end-to-end mentor conversations and save checkpoint

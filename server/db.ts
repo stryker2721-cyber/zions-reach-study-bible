@@ -90,3 +90,133 @@ export async function getUserByOpenId(openId: string) {
 }
 
 // TODO: add feature queries here as your schema grows.
+
+import { desc } from "drizzle-orm";
+import {
+  mentorConversations,
+  mentorMessages,
+  InsertMentorConversation,
+  InsertMentorMessage,
+} from "../drizzle/schema";
+
+/**
+ * Get all conversations for a user, ordered by most recent
+ */
+export async function getUserConversations(userId: number) {
+  const db = await getDb();
+  if (!db) return [];
+
+  return db
+    .select()
+    .from(mentorConversations)
+    .where(eq(mentorConversations.userId, userId))
+    .orderBy(desc(mentorConversations.updatedAt));
+}
+
+/**
+ * Get a specific conversation with all its messages
+ */
+export async function getConversationWithMessages(conversationId: number) {
+  const db = await getDb();
+  if (!db) return null;
+
+  const conversation = await db
+    .select()
+    .from(mentorConversations)
+    .where(eq(mentorConversations.id, conversationId))
+    .limit(1);
+
+  if (!conversation.length) return null;
+
+  const messages = await db
+    .select()
+    .from(mentorMessages)
+    .where(eq(mentorMessages.conversationId, conversationId))
+    .orderBy(mentorMessages.createdAt);
+
+  return {
+    ...conversation[0],
+    messages,
+  };
+}
+
+/**
+ * Create a new conversation
+ */
+export async function createMentorConversation(
+  data: InsertMentorConversation
+) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const result = await db.insert(mentorConversations).values(data);
+  return (result as any).insertId || 0;
+}
+
+/**
+ * Add a message to a conversation
+ */
+export async function addMentorMessage(data: InsertMentorMessage) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  const result = await db.insert(mentorMessages).values(data);
+
+  // Update conversation's updatedAt timestamp
+  if (data.conversationId) {
+    await db
+      .update(mentorConversations)
+      .set({ updatedAt: new Date() })
+      .where(eq(mentorConversations.id, data.conversationId));
+  }
+
+  return (result as any).insertId || 0;
+}
+
+/**
+ * Get messages for a conversation
+ */
+export async function getConversationMessages(conversationId: number) {
+  const db = await getDb();
+  if (!db) return [];
+
+  return db
+    .select()
+    .from(mentorMessages)
+    .where(eq(mentorMessages.conversationId, conversationId))
+    .orderBy(mentorMessages.createdAt);
+}
+
+/**
+ * Update conversation title
+ */
+export async function updateConversationTitle(
+  conversationId: number,
+  title: string
+) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  await db
+    .update(mentorConversations)
+    .set({ title })
+    .where(eq(mentorConversations.id, conversationId));
+}
+
+/**
+ * Delete a conversation and all its messages
+ */
+export async function deleteMentorConversation(conversationId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Database not available");
+
+  // Delete messages first
+  await db
+    .delete(mentorMessages)
+    .where(eq(mentorMessages.conversationId, conversationId));
+
+  // Delete conversation
+  await db
+    .delete(mentorConversations)
+    .where(eq(mentorConversations.id, conversationId));
+}

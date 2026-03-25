@@ -6,6 +6,7 @@ import {
 import { ScreenContainer } from "@/components/screen-container";
 import { useColors } from "@/hooks/use-colors";
 import { GENESIS_1_1, JOHN_1_1, type WordData } from "@/lib/lexicon";
+import { searchLexicon } from "@/lib/search-service";
 
 type Mode = "hebrew" | "greek" | "search" | "verse";
 
@@ -18,18 +19,8 @@ interface SearchResult {
   lang: "H" | "G";
 }
 
-let hebrewLex: Record<string, any> | null = null;
-let greekLex: Record<string, any> | null = null;
 let bibleData: any[] | null = null;
 
-async function getHebrew() {
-  if (!hebrewLex) hebrewLex = require("../../assets/data/hebrew.json");
-  return hebrewLex!;
-}
-async function getGreek() {
-  if (!greekLex) greekLex = require("../../assets/data/greek.json");
-  return greekLex!;
-}
 function getBible() {
   if (!bibleData) bibleData = require("../../assets/data/kjv_bible.json");
   return bibleData!;
@@ -70,29 +61,15 @@ export default function StudyScreen() {
     if (!searchQuery.trim()) return;
     setSearchLoading(true);
     setSearchResults([]);
-    const q = searchQuery.trim().toLowerCase();
-    const isStrongs = /^[hg]\d+/i.test(q);
-    const [heb, grk] = await Promise.all([getHebrew(), getGreek()]);
-    const results: SearchResult[] = [];
-    const searchIn = (lex: Record<string, any>, langCode: "H" | "G") => {
-      for (const [key, entry] of Object.entries(lex)) {
-        if (results.length >= 30) break;
-        const def = (entry.strongs_def || "").toLowerCase();
-        const kjv = (entry.kjv_def || "").toLowerCase();
-        const xlit = (entry.xlit || "").toLowerCase();
-        const lemma = (entry.lemma || "").toLowerCase();
-        if (
-          (isStrongs && key.toLowerCase() === q) ||
-          (!isStrongs && (def.includes(q) || kjv.includes(q) || xlit.includes(q) || lemma.includes(q)))
-        ) {
-          results.push({ strongs: key, lemma: entry.lemma, xlit: entry.xlit, strongs_def: entry.strongs_def, kjv_def: entry.kjv_def, lang: langCode });
-        }
-      }
-    };
-    searchIn(heb, "H");
-    searchIn(grk, "G");
-    setSearchResults(results);
-    setSearchLoading(false);
+    try {
+      const results = await searchLexicon(searchQuery, 30);
+      setSearchResults(results);
+    } catch (error) {
+      console.error("Search error:", error);
+      setSearchResults([]);
+    } finally {
+      setSearchLoading(false);
+    }
   }, [searchQuery]);
 
   // ── Verse lookup ────────────────────────────────────────────────────────────

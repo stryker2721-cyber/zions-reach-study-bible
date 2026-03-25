@@ -26,3 +26,32 @@ export type User = typeof users.$inferSelect;
 export type InsertUser = typeof users.$inferInsert;
 
 // TODO: Add your tables here
+
+/**
+ * Mentor conversation table for storing chat history
+ */
+export const mentorConversations = mysqlTable("mentorConversations", {
+  id: int("id").autoincrement().primaryKey(),
+  userId: int("userId").notNull(),
+  title: varchar("title", { length: 255 }).notNull().default("New Conversation"),
+  context: text("context"), // JSON string with verse, lexicon context
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
+
+export type MentorConversation = typeof mentorConversations.$inferSelect;
+export type InsertMentorConversation = typeof mentorConversations.$inferInsert;
+
+/**
+ * Mentor messages table for storing individual chat messages
+ */
+export const mentorMessages = mysqlTable("mentorMessages", {
+  id: int("id").autoincrement().primaryKey(),
+  conversationId: int("conversationId").notNull(),
+  role: mysqlEnum("role", ["user", "assistant"]).notNull(),
+  content: text("content").notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
+export type MentorMessage = typeof mentorMessages.$inferSelect;
+export type InsertMentorMessage = typeof mentorMessages.$inferInsert;
