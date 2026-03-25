@@ -69,11 +69,14 @@
 - [ ] Test end-to-end mentor conversations and save checkpoint
 
 
-## Bug Fixes (PRIORITY)
-- [x] Fix Hebrew/Greek lexicon: load full lexicon data, not just one verse
-- [x] Fix lexicon search: search queries returning no results (aligned JSON keys)
-- [x] Fix Mentor AI: Enter key not sending messages (added onSubmitEditing)
-- [x] Test all three fixes end-to-end
+## Critical Fixes (PRIORITY - Phase 1-7)
+- [x] Fix Mentor AI chat UI: keyboard overlay blocking input, messages not sending
+- [x] Remove limited Hebrew/Greek study modes (Genesis 1:1, John 1:1 only)
+- [x] Build phrase/keyword search across entire Bible (e.g., "gnashing of teeth", "stress", "addiction")
+- [x] Make search results clickable with verse context and lexicon breakdown
+- [x] Add "Get Bible Examples" button to Mentor AI for contextual verses
+- [x] Bible reader button already exists in main navigation
+- [x] Test all features end-to-end
 
 ## Monetization & Feature Gating (Phase 5-8)
 - [ ] Update database schema: user_subscriptions, ai_usage_tracking tables

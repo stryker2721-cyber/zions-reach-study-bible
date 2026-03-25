@@ -2,13 +2,13 @@ import { useState, useEffect, useRef } from "react";
 import {
   View,
   Text,
-  ScrollView,
   TextInput,
   TouchableOpacity,
   ActivityIndicator,
   FlatList,
   KeyboardAvoidingView,
   Platform,
+  ScrollView,
 } from "react-native";
 import { ScreenContainer } from "@/components/screen-container";
 import { useColors } from "@/hooks/use-colors";
@@ -43,13 +43,11 @@ export default function MentorScreen() {
   const [messages, setMessages] = useState<Message[]>([]);
   const [inputText, setInputText] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const scrollViewRef = useRef<ScrollView>(null);
-  const [showSuggestions, setShowSuggestions] = useState(true);
+  const flatListRef = useRef<FlatList>(null);
 
   // tRPC queries and mutations
   const { data: conversations } = trpc.mentor.listConversations.useQuery();
   const createConversationMutation = trpc.mentor.createConversation.useMutation();
-  const addMessageMutation = trpc.mentor.addMessage.useMutation();
   const { data: messagesData } = trpc.mentor.getMessages.useQuery(
     { conversationId: currentConversation?.id || 0 },
     { enabled: !!currentConversation }
@@ -69,6 +67,10 @@ export default function MentorScreen() {
   useEffect(() => {
     if (messagesData) {
       setMessages(messagesData);
+      // Scroll to bottom when messages update
+      setTimeout(() => {
+        flatListRef.current?.scrollToEnd({ animated: true });
+      }, 100);
     }
   }, [messagesData]);
 
@@ -80,7 +82,6 @@ export default function MentorScreen() {
         context: conversation.context,
         messages: [],
       });
-      // Messages will be loaded via useQuery
     } catch (error) {
       console.error("Failed to load conversation:", error);
     }
@@ -118,13 +119,6 @@ export default function MentorScreen() {
     setIsLoading(true);
 
     try {
-      // Save user message to database
-      await addMessageMutation.mutateAsync({
-        conversationId: currentConversation.id,
-        role: "user",
-        content: questionText,
-      });
-
       // Call Grok API for response
       const result = await askMentorMutation.mutateAsync({
         conversationId: currentConversation.id,
@@ -159,26 +153,41 @@ export default function MentorScreen() {
     return (
       <View
         className={cn(
-          "flex-row mb-3",
+          "flex-row mb-4 px-4",
           isUser ? "justify-end" : "justify-start"
         )}
       >
         <View
           className={cn(
-            "max-w-xs rounded-lg px-4 py-3",
-            isUser
-              ? "bg-primary"
-              : "bg-surface border border-border"
+            "max-w-xs",
+            isUser ? "" : "gap-2"
           )}
         >
-          <Text
+          <View
             className={cn(
-              "text-base leading-relaxed",
-              isUser ? "text-background" : "text-foreground"
+              "rounded-lg px-4 py-3",
+              isUser
+                ? "bg-primary"
+                : "bg-surface border border-border"
             )}
           >
-            {item.content}
-          </Text>
+            <Text
+              className={cn(
+                "text-base leading-relaxed",
+                isUser ? "text-background" : "text-foreground"
+              )}
+            >
+              {item.content}
+            </Text>
+          </View>
+          {!isUser && (
+            <TouchableOpacity
+              onPress={() => setInputText(`Can you give me Bible verses that support what you said about: ${item.content.substring(0, 50)}...`)}
+              className="bg-surface border border-primary rounded-lg px-3 py-2 self-start"
+            >
+              <Text className="text-sm font-semibold text-primary">📖 Get Bible Examples</Text>
+            </TouchableOpacity>
+          )}
         </View>
       </View>
     );
@@ -186,57 +195,57 @@ export default function MentorScreen() {
 
   return (
     <ScreenContainer className="flex-1 bg-background">
+      {/* Header */}
+      <View className="px-4 py-4 border-b border-border">
+        <Text className="text-2xl font-bold text-foreground">
+          Manus AI Mentor
+        </Text>
+        <Text className="text-sm text-muted mt-1">
+          Ask questions about Bible study and theology
+        </Text>
+      </View>
+
+      {/* Messages List - Takes up remaining space */}
+      <FlatList
+        ref={flatListRef}
+        data={messages}
+        renderItem={renderMessage}
+        keyExtractor={(_, index) => index.toString()}
+        contentContainerStyle={{ paddingVertical: 16, flexGrow: 1 }}
+        onContentSizeChange={() =>
+          flatListRef.current?.scrollToEnd({ animated: true })
+        }
+        ListEmptyComponent={
+          <View className="flex-1 items-center justify-center px-4">
+            <Text className="text-lg font-semibold text-foreground mb-4">
+              Welcome to Manus AI Mentor
+            </Text>
+            <Text className="text-muted text-center mb-6">
+              Ask questions about Bible study, theology, and Scripture.
+            </Text>
+            <Text className="text-sm font-semibold text-foreground mb-3">
+              Try asking:
+            </Text>
+            <View className="gap-2 w-full">
+              {SUGGESTED_PROMPTS.map((prompt, idx) => (
+                <TouchableOpacity
+                  key={idx}
+                  onPress={() => setInputText(prompt)}
+                  className="bg-surface border border-border rounded-lg px-3 py-2"
+                >
+                  <Text className="text-sm text-foreground">{prompt}</Text>
+                </TouchableOpacity>
+              ))}
+            </View>
+          </View>
+        }
+      />
+
+      {/* Input Area - Fixed at bottom */}
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
-        className="flex-1"
+        keyboardVerticalOffset={Platform.OS === "ios" ? 90 : 0}
       >
-        {/* Header */}
-        <View className="px-4 py-4 border-b border-border">
-          <Text className="text-2xl font-bold text-foreground">
-            Manus AI Mentor
-          </Text>
-          <Text className="text-sm text-muted mt-1">
-            Ask questions about Bible study and theology
-          </Text>
-        </View>
-
-        {/* Messages */}
-        <FlatList
-          ref={scrollViewRef as any}
-          data={messages}
-          renderItem={renderMessage}
-          keyExtractor={(_, index) => index.toString()}
-          contentContainerStyle={{ padding: 16, flexGrow: 1 }}
-          onContentSizeChange={() =>
-            scrollViewRef.current?.scrollToEnd({ animated: true })
-          }
-          ListEmptyComponent={
-            <View className="flex-1 items-center justify-center px-4">
-              <Text className="text-lg font-semibold text-foreground mb-4">
-                Welcome to Manus AI Mentor
-              </Text>
-              <Text className="text-muted text-center mb-6">
-                Ask questions about Bible study, theology, and Scripture.
-              </Text>
-              <Text className="text-sm font-semibold text-foreground mb-3">
-                Try asking:
-              </Text>
-              <View className="gap-2 w-full">
-                {SUGGESTED_PROMPTS.map((prompt, idx) => (
-                  <TouchableOpacity
-                    key={idx}
-                    onPress={() => setInputText(prompt)}
-                    className="bg-surface border border-border rounded-lg px-3 py-2"
-                  >
-                    <Text className="text-sm text-foreground">{prompt}</Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
-            </View>
-          }
-        />
-
-        {/* Input Area */}
         <View className="px-4 py-4 border-t border-border bg-surface">
           <View className="flex-row items-end gap-2">
             <TextInput
